@@ -1,49 +1,41 @@
 #include "main.h"
+/**
+ * _printf - is a function that selects the correct function to print.
+ * @format: identifier to look for.
+ * Return: the length of the string.
+ */
+int _printf(const char * const format, ...)
+{
+	getFun key[] = {
+		{"%s", printStr}, {"%c", printchar_c},
+		{"%%", printPercent},
+	};
 
+	va_list arg;
+	int i = 0, j, length = 0;
 
-int _printf(const char *format, ...){
+	va_start(arg, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
 
-    int len = 0;
-    va_list args;
-
-    if (format == NULL)
-        return (-1);
-    va_start(args, format);
-    while(*format)
-    {
-        if(*format != '%')
-        {
-            write(1, format, 1);
-            len++;
-        }
-        else{
-            format++;
-            if(format == "\0")
-                return len;
-            if(*format == '%')
-            {
-                write(1, format, 1);
-                len++;
-            }
-            else if (*format == 'c')
-            {
-                char c = va_arg(args, int);
-                write(1, &c, 1);
-                len++;
-            }
-            else if (*format == 's')
-            {
-                char *str = va_arg(args, char*);
-                int strZise = strlen(str);
-
-                while(*str < strZise){
-                    write(1, str++, 1);
-                }
-                len += strZise;
-            }
-        }
-        format++;
-        return (len);
-
-    }
+Here:
+	while (format[i] != '\0')
+	{
+		j = 13;
+		while (j >= 0)
+		{
+			if (key[j].cha[0] == format[i] && key[j].cha[1] == format[i + 1])
+			{
+				length += key[j].fun(arg);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
+		}
+		_putchar(format[i]);
+		length++;
+		i++;
+	}
+	va_end(arg);
+	return (length);
 }
