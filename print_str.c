@@ -1,16 +1,32 @@
 #include "main.h"
 
-int print_str(va_list args, int lent)
+/**
+ * _strlen - finds the lenght of a string.
+ * @s: string
+ * Return: integer.
+ */
+
+int _strlen(char *s)
 {
-	char *str;
+	int c;
 
-	str = va_arg(args, char *);
-	while (*str)
-	{
-		write(1, str, 1);
-		lent++;
-		str++;
-	}
+	for (c = 0; s[c] != 0; c++)
+		;
+	return (c);
 
-	return (0);
+}
+
+/**
+ * _strlenc - finds length of a string but for constant characters
+ * @s: string
+ * Return: integer
+ */
+
+int _strlenc(const char *s)
+{
+	int c;
+
+	for (c = 0; s[c] != 0; c++)
+		;
+	return (c);
 }
